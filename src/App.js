@@ -1,33 +1,38 @@
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { useRef, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-
-  
   const inputRef = useRef(null);
-  
 
-  
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
+
   function addTask() {
     const newTask = {
       id: uuidv4(),
-      description: inputRef.current.value
+      description: inputRef.current.value,
     }
 
-  const newTasks = [newTask, ...tasks]
-  setTasks(newTasks)
+    const newTasks = [newTask, ...tasks];
+    setTasks(newTasks)
   }
 
+  function deleteTask(task) {
+    const newTasks = tasks.filter(t => t != task)
+
+    setTasks(newTasks)
+  }
 
   return (
-    <div classname="App">
-      <input ref={inputRef} name='toDoInput'/>
-      <button onClick={addTask} >Add</button>
+    <div className="App">
+      <input ref={inputRef} name='todo_input' />
+
+      <button onClick={addTask}>Add</button>
+
       {tasks.map((task, index) => (
         <div key={index}>
           <span>{task.description}</span>
+          <button onClick={() => deleteTask(task)}>Delete</button>
           <br />
         </div>
       ))}
